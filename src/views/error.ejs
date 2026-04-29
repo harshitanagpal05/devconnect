@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="main-content">
+    <div class="error-container" id="error-container">
+        <div class="error-card">
+            <div class="error-code">
+                <% if (message === 'Page not found' || message === 'Post not found') { %>
+                    404
+                <% } else { %>
+                    500
+                <% } %>
+            </div>
+            <h1 class="error-title"><%= message %></h1>
+            <p class="error-subtitle">
+                <% if (message === 'Page not found') { %>
+                    The page you're looking for doesn't exist or has been moved.
+                <% } else if (message === 'Post not found') { %>
+                    This post may have been deleted or the URL is incorrect.
+                <% } else { %>
+                    Something went wrong on our end. Please try again later.
+                <% } %>
+            </p>
+
+            <% if (typeof error !== 'undefined' && error && error.stack) { %>
+                <details class="error-details">
+                    <summary>Technical Details</summary>
+                    <pre class="error-stack"><%= error.stack %></pre>
+                </details>
+            <% } %>
+
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary" id="error-home-btn">
+                    <span>🏠 Go Home</span>
+                    <span class="btn-shine"></span>
+                </a>
+                <a href="/posts" class="btn btn-secondary" id="error-feed-btn">📝 View Feed</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

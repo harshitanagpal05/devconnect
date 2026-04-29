@@ -1,0 +1,32 @@
+    <footer class="footer" id="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-icon">⟨/⟩</span>
+                <span>Dev<span class="brand-accent">Connect</span></span>
+            </div>
+            <p class="footer-text">Built with ❤️ for developers, by developers.</p>
+            <p class="footer-copy">&copy; <%= new Date().getFullYear() %> DevConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-dismiss flash messages
+        document.querySelectorAll('.flash').forEach(el => {
+            setTimeout(() => {
+                el.style.animation = 'slideUp 0.4s ease forwards';
+                setTimeout(() => el.remove(), 400);
+            }, 4000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="main-content">
+    <div class="form-container" id="edit-post-container">
+        <div class="form-card">
+            <div class="form-header">
+                <a href="/posts/<%= post._id %>" class="back-link">
+                    <span class="arrow">←</span>
+                    Back to Post
+                </a>
+                <h1 class="form-title">✏️ Edit Post</h1>
+                <p class="form-subtitle">Update your post content below.</p>
+            </div>
+
+            <form action="/posts/<%= post._id %>" method="POST" class="post-form" id="edit-post-form">
+                <div class="form-group" id="form-group-title">
+                    <label for="title" class="form-label">Post Title</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            class="form-input form-input-large"
+                            value="<%= post.title %>"
+                            required
+                            maxlength="200"
+                        >
+                        <span class="input-focus-line"></span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="form-group-content">
+                    <label for="content" class="form-label">Content</label>
+                    <div class="input-wrapper">
+                        <textarea
+                            id="content"
+                            name="content"
+                            class="form-input form-textarea"
+                            required
+                            rows="14"
+                        ><%= post.content %></textarea>
+                        <span class="input-focus-line"></span>
+                    </div>
+                    <span class="form-hint" id="char-count">
+                        <%= post.content.trim().split(/\s+/).filter(w => w).length %> words · ~<%= Math.max(1, Math.ceil(post.content.trim().split(/\s+/).filter(w => w).length / 200)) %> min read
+                    </span>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/posts/<%= post._id %>" class="btn btn-ghost" id="cancel-edit">Cancel</a>
+                    <button type="submit" class="btn btn-primary" id="update-post">
+                        <span>💾 Update Post</span>
+                        <span class="btn-shine"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    const textarea = document.getElementById('content');
+    const counter = document.getElementById('char-count');
+    textarea.addEventListener('input', () => {
+        const words = textarea.value.trim().split(/\s+/).filter(w => w).length;
+        const readTime = Math.max(1, Math.ceil(words / 200));
+        counter.textContent = `${words} words · ~${readTime} min read`;
+    });
+</script>
+
+<%- include('partials/footer') %>

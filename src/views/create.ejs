@@ -1,0 +1,73 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="main-content">
+    <div class="form-container" id="create-post-container">
+        <div class="form-card">
+            <div class="form-header">
+                <a href="/posts" class="back-link">
+                    <span class="arrow">←</span>
+                    Back to Feed
+                </a>
+                <h1 class="form-title">✨ Create New Post</h1>
+                <p class="form-subtitle">Share your knowledge, tutorials, or ideas with the dev community.</p>
+            </div>
+
+            <form action="/posts" method="POST" class="post-form" id="create-post-form">
+                <div class="form-group" id="form-group-title">
+                    <label for="title" class="form-label">Post Title</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            class="form-input form-input-large"
+                            placeholder="e.g., How to Build a REST API with Node.js"
+                            required
+                            maxlength="200"
+                        >
+                        <span class="input-focus-line"></span>
+                    </div>
+                    <span class="form-hint">A compelling title attracts more readers</span>
+                </div>
+
+                <div class="form-group" id="form-group-content">
+                    <label for="content" class="form-label">Content</label>
+                    <div class="input-wrapper">
+                        <textarea
+                            id="content"
+                            name="content"
+                            class="form-input form-textarea"
+                            placeholder="Write your post content here. Share code snippets, tutorials, experiences, or insights..."
+                            required
+                            rows="14"
+                        ></textarea>
+                        <span class="input-focus-line"></span>
+                    </div>
+                    <span class="form-hint" id="char-count">Write freely — there's no character limit</span>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/posts" class="btn btn-ghost" id="cancel-create">Cancel</a>
+                    <button type="submit" class="btn btn-primary" id="publish-post">
+                        <span>🚀 Publish Post</span>
+                        <span class="btn-shine"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Live character counter
+    const textarea = document.getElementById('content');
+    const counter = document.getElementById('char-count');
+    textarea.addEventListener('input', () => {
+        const words = textarea.value.trim().split(/\s+/).filter(w => w).length;
+        const readTime = Math.max(1, Math.ceil(words / 200));
+        counter.textContent = `${words} words · ~${readTime} min read`;
+    });
+</script>
+
+<%- include('partials/footer') %>

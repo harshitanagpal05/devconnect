@@ -1,0 +1,87 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="main-content">
+    <section class="hero" id="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-line">Share Your</span>
+                <span class="hero-line hero-gradient">Developer Journey</span>
+            </h1>
+            <p class="hero-subtitle">Connect, write, and inspire. A premium blogging platform built exclusively for developers.</p>
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                <a href="/posts/new" class="btn btn-primary btn-hero" id="hero-cta">
+                    <span>✍️ Write a Post</span><span class="btn-shine"></span>
+                </a>
+            <% } else { %>
+                <a href="/users/login" class="btn btn-primary btn-hero" id="hero-cta">
+                    <span>🚀 Get Started</span><span class="btn-shine"></span>
+                </a>
+            <% } %>
+        </div>
+        <div class="hero-decoration">
+            <div class="code-block-float">
+                <span class="code-line"><span class="code-keyword">const</span> dev = <span class="code-string">"connected"</span>;</span>
+                <span class="code-line"><span class="code-keyword">await</span> blog.<span class="code-func">publish</span>();</span>
+                <span class="code-line"><span class="code-comment">// Share with the world 🌍</span></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="posts-section" id="posts-section">
+        <div class="section-header">
+            <h2 class="section-title">Latest Posts</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <% if (posts && posts.length > 0) { %>
+            <div class="posts-grid" id="posts-grid">
+                <% posts.forEach((post, index) => { %>
+                    <article class="post-card" id="post-card-<%= post._id %>" style="animation-delay: <%= index * 0.08 %>s">
+                        <div class="post-card-accent"></div>
+                        <div class="post-card-body">
+                            <div class="post-meta">
+                                <span class="post-author">
+                                    <span class="author-avatar"><%= post.author ? post.author.charAt(0).toUpperCase() : 'A' %></span>
+                                    <%= post.author || 'Anonymous' %>
+                                </span>
+                                <span class="post-date">
+                                    <%= new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+                                </span>
+                            </div>
+                            <h3 class="post-card-title">
+                                <a href="/posts/<%= post._id %>"><%= post.title %></a>
+                            </h3>
+                            <p class="post-card-excerpt">
+                                <%= post.content.length > 140 ? post.content.substring(0, 140) + '...' : post.content %>
+                            </p>
+                            <div class="post-card-footer">
+                                <a href="/posts/<%= post._id %>" class="read-more" id="read-more-<%= post._id %>">
+                                    Read More <span class="arrow">→</span>
+                                </a>
+                                <span class="read-time"><%= Math.max(1, Math.ceil(post.content.split(' ').length / 200)) %> min</span>
+                            </div>
+                            <div class="post-card-stats">
+                                <span>❤️ <%= post.likes ? post.likes.length : 0 %></span>
+                                <span>💬 <%= post.comments ? post.comments.length : 0 %></span>
+                            </div>
+                        </div>
+                    </article>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>No posts yet</h3>
+                <p>Be the first to share something amazing with the community.</p>
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="/posts/new" class="btn btn-primary">✍️ Write the First Post</a>
+                <% } else { %>
+                    <a href="/users/login" class="btn btn-primary">Login to Post</a>
+                <% } %>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<%- include('partials/footer') %>

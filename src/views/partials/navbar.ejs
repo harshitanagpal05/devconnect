@@ -1,0 +1,55 @@
+    <nav class="navbar" id="main-navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand" id="nav-brand">
+                <span class="brand-icon">⟨/⟩</span>
+                <span class="brand-text">Dev<span class="brand-accent">Connect</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="/posts" class="nav-link" id="nav-posts">
+                    <span class="nav-icon">📝</span>
+                    Feed
+                </a>
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="/posts/new" class="nav-link nav-link-glow" id="nav-new-post">
+                        <span class="nav-icon">✨</span>
+                        New Post
+                    </a>
+                    <div class="nav-user" id="nav-user-menu">
+                        <span class="user-avatar"><%= currentUser.username.charAt(0).toUpperCase() %></span>
+                        <span class="user-name"><%= currentUser.username %></span>
+                        <a href="/users/logout" class="nav-link nav-logout" id="nav-logout">Logout</a>
+                    </div>
+                <% } else { %>
+                    <a href="/users/login" class="nav-link" id="nav-login">
+                        <span class="nav-icon">🔑</span>
+                        Login
+                    </a>
+                    <a href="/users/signup" class="nav-link nav-link-glow" id="nav-signup">
+                        <span class="nav-icon">✨</span>
+                        Sign Up
+                    </a>
+                <% } %>
+            </div>
+
+            <!-- Mobile hamburger -->
+            <button class="nav-hamburger" id="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('nav-open')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+        <div class="flash flash-success" id="flash-success">
+            <span class="flash-icon">✅</span>
+            <span><%= success %></span>
+            <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+        <div class="flash flash-error" id="flash-error">
+            <span class="flash-icon">⚠️</span>
+            <span><%= error %></span>
+            <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+    <% } %>

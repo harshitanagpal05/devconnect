@@ -1,0 +1,85 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="main-content">
+    <div class="login-container" id="signup-container">
+        <div class="login-card">
+            <div class="login-card-glow"></div>
+            <div class="login-header">
+                <div class="login-icon">
+                    <span>⟨/⟩</span>
+                </div>
+                <h1 class="login-title">Join DevConnect</h1>
+                <p class="login-subtitle">Create your developer account — it's free!</p>
+            </div>
+
+            <form action="/users/signup/web" method="POST" class="login-form" id="signup-form">
+                <div class="form-group" id="form-group-username">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-input"
+                            placeholder="Choose a username"
+                            required
+                            autocomplete="username"
+                            minlength="2"
+                            maxlength="30"
+                        >
+                        <span class="input-focus-line"></span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="form-group-password">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Create a password (min 3 chars)"
+                            required
+                            minlength="3"
+                            autocomplete="new-password"
+                        >
+                        <span class="input-focus-line"></span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="form-group-confirm-password">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔐</span>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            class="form-input"
+                            placeholder="Confirm your password"
+                            required
+                            minlength="3"
+                            autocomplete="new-password"
+                        >
+                        <span class="input-focus-line"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-login" id="signup-submit">
+                    <span>🚀 Create Account</span>
+                    <span class="btn-shine"></span>
+                </button>
+            </form>
+
+            <div class="login-hint">
+                <p>Already have an account? <a href="/users/login" class="auth-switch-link">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
