@@ -10,15 +10,18 @@
     </footer>
 
     <script>
-        // Auto-dismiss flash messages
+        // Auto-dismiss flash messages with smooth fade
         document.querySelectorAll('.flash').forEach(el => {
             setTimeout(() => {
-                el.style.animation = 'slideUp 0.4s ease forwards';
-                setTimeout(() => el.remove(), 400);
+                el.style.transition = 'all 0.5s cubic-bezier(.4,0,.2,1)';
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(-14px)';
+                setTimeout(() => el.remove(), 500);
             }, 4000);
         });
 
         // Navbar scroll effect
+        let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('main-navbar');
             if (window.scrollY > 20) {
@@ -26,6 +29,41 @@
             } else {
                 nav.classList.remove('nav-scrolled');
             }
+            lastScroll = window.scrollY;
+        }, { passive: true });
+
+        // Scroll-reveal for post cards with stagger
+        if ('IntersectionObserver' in window) {
+            const cards = document.querySelectorAll('.post-card, .comment-item');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.transition = 'all 0.6s cubic-bezier(.16,1,.3,1)';
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, i * 80);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            cards.forEach(card => observer.observe(card));
+        }
+
+        // Button press ripple effect
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,.2);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (e.clientX - rect.left - size/2) + 'px;top:' + (e.clientY - rect.top - size/2) + 'px;animation:btn-ripple .6s ease-out forwards';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
         });
     </script>
 </body>
