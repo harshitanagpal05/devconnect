@@ -4,26 +4,58 @@
 <main class="main-content">
     <section class="hero" id="hero-section">
         <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Open-source blogging platform
+            </div>
             <h1 class="hero-title">
                 <span class="hero-line">Share Your</span>
                 <span class="hero-line hero-gradient">Developer Journey</span>
             </h1>
             <p class="hero-subtitle">Connect, write, and inspire. A premium blogging platform built exclusively for developers.</p>
-            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
-                <a href="/posts/new" class="btn btn-primary btn-hero" id="hero-cta">
-                    <span>✍️ Write a Post</span><span class="btn-shine"></span>
+            <div class="hero-buttons">
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="/posts/new" class="btn btn-primary btn-hero" id="hero-cta">
+                        <span>✍️ Write a Post</span><span class="btn-shine"></span>
+                    </a>
+                <% } else { %>
+                    <a href="/users/login" class="btn btn-primary btn-hero" id="hero-cta">
+                        <span>🚀 Get Started</span><span class="btn-shine"></span>
+                    </a>
+                <% } %>
+                <a href="#posts-section" class="btn btn-secondary btn-hero" id="hero-explore">
+                    Explore Posts ↓
                 </a>
-            <% } else { %>
-                <a href="/users/login" class="btn btn-primary btn-hero" id="hero-cta">
-                    <span>🚀 Get Started</span><span class="btn-shine"></span>
-                </a>
-            <% } %>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-number" data-target="<%= posts ? posts.length : 0 %>">0</span>
+                    <span class="hero-stat-label">Posts</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" data-target="<%= posts ? posts.reduce((a, p) => a + (p.likes ? p.likes.length : 0), 0) : 0 %>">0</span>
+                    <span class="hero-stat-label">Likes</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" data-target="<%= posts ? posts.reduce((a, p) => a + (p.comments ? p.comments.length : 0), 0) : 0 %>">0</span>
+                    <span class="hero-stat-label">Comments</span>
+                </div>
+            </div>
         </div>
         <div class="hero-decoration">
             <div class="code-block-float">
+                <div class="code-block-header">
+                    <span class="code-dot" style="background:#ff5f57"></span>
+                    <span class="code-dot" style="background:#febc2e"></span>
+                    <span class="code-dot" style="background:#28c840"></span>
+                    <span class="code-block-filename">devconnect.js</span>
+                </div>
                 <span class="code-line"><span class="code-keyword">const</span> dev = <span class="code-string">"connected"</span>;</span>
                 <span class="code-line"><span class="code-keyword">await</span> blog.<span class="code-func">publish</span>();</span>
                 <span class="code-line"><span class="code-comment">// Share with the world 🌍</span></span>
+                <span class="code-line code-typing"><span class="code-func">console</span>.<span class="code-keyword">log</span>(<span class="code-string">"Hello, Dev!"</span>);</span>
             </div>
         </div>
     </section>
@@ -31,13 +63,14 @@
     <section class="posts-section" id="posts-section">
         <div class="section-header">
             <h2 class="section-title">Latest Posts</h2>
+            <p class="section-subtitle">Fresh ideas and insights from our developer community</p>
             <div class="section-line"></div>
         </div>
 
         <% if (posts && posts.length > 0) { %>
             <div class="posts-grid" id="posts-grid">
                 <% posts.forEach((post, index) => { %>
-                    <article class="post-card" id="post-card-<%= post._id %>" style="animation-delay: <%= index * 0.08 %>s">
+                    <article class="post-card" id="post-card-<%= post._id %>" style="animation-delay: <%= index * 0.1 %>s">
                         <div class="post-card-accent"></div>
                         <div class="post-card-body">
                             <div class="post-meta">
@@ -83,5 +116,19 @@
         <% } %>
     </section>
 </main>
+
+<script>
+// Animated counter for hero stats
+document.querySelectorAll('.hero-stat-number').forEach(el => {
+    const target = parseInt(el.dataset.target) || 0;
+    let current = 0;
+    const increment = Math.max(1, Math.ceil(target / 40));
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = current;
+    }, 40);
+});
+</script>
 
 <%- include('partials/footer') %>
